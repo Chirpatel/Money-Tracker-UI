@@ -1,10 +1,9 @@
 import axios from 'axios';
 
-const getDataApi = async () =>{
+const getDataApi = async (url) =>{
     var config = {
         method: 'get',
-        url: 'https://moneytracker.vercel.chir.in/data/crypto/',
-        headers: { }
+        url: url,
       };
       return ( await axios(config)).data;
 }
