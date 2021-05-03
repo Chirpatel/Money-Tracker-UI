@@ -1,6 +1,6 @@
-import Table from './components/table/table'
+import Index from './components/Index'
 function App() {
-  return <Table/>;
+  return(<Index/>);
 }
 
 export default App;

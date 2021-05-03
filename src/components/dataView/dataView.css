@@ -1,0 +1,66 @@
+.dataView {
+    width: 100%;
+    height: 400px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    overflow: auto;
+
+}
+
+.dataView-params {
+    width: 100%;
+    text-align: end;
+    margin-top: 5px;
+}
+
+.dataView-params input {
+    padding: 5px;
+    margin: 0px 5px;
+}
+
+.dataView-params input[name="sheetname"] {
+    width: 100px;
+}
+
+.dataView-params input[name="cell1"] {
+    width: 40px;
+}
+
+.dataView-params input[name="cell2"] {
+    width: 40px;
+}
+
+.dataView-params button {
+    padding: 5px;
+    margin: 0px 5px;
+}
+
+.dataView-table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.dataView-table td,
+.dataView-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.dataView-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.dataView-table tr:hover {
+    background-color: #ddd;
+}
+
+.dataView-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}

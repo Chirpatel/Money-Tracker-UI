@@ -6,7 +6,7 @@ import {
 import {
     DataGrid
 } from '@material-ui/data-grid';
-import getDataApi from '../../api/data';
+import getDataApi from '../api/data';
 const columns = [
     {
         field: 'id',
@@ -14,7 +14,7 @@ const columns = [
         width: 70
     },
     {
-        field: 'coinName',
+        field: 'Type',
         headerName: 'Coin',
         width: 100
     },
@@ -23,19 +23,19 @@ const columns = [
     //     headerName: 'Date',
     //     width: 130
     // },
+    // {
+    //     field: 'name',
+    //     headerName: 'Coin Name',
+    //     width: 130
+    // },
     {
-        field: 'name',
-        headerName: 'Coin Name',
-        width: 130
-    },
-    {
-        field: 'amount',
+        field: 'Amount',
         headerName: 'Amount',
         type: 'number',
         width: 90
     },
     {
-        field: 'quantity',
+        field: 'Quantity',
         headerName: 'Quantity',
         type: 'number',
         width: 90
@@ -83,26 +83,52 @@ const columns = [
 ];
 
 
-function Table() {
+function Table(props) {
     const [rows, setRows] = useState([]);
     const [names, setNames] = useState([]);
     useEffect(() => {
-        const url = 'https://moneytracker.vercel.chir.in/data/crypto/'
-        const getData = async () => {
+        console.log(props.data)
+        const getData = async ()=>{
+            let newData = {};
             let namesList = []
-            setRows((await getDataApi(url)).map((data, index) => {
-                namesList.push(data.coinName.toLowerCase() + data.currency.toLowerCase());
-                return {
-                    id: index,
-                    boughtPrice:data.amount/data.quantity,
-                    ...data
-                };
-            }));
+            props.data.data.map((data,index)=>{
+                if(data.Type!=="Tax"){
+                    if(newData[data.Type]!==undefined){
+                        console.log(newData, data,data.Amount)
+                        if(data["Bougt/Sold"]==="Sold"){
+                            newData[data.Type].Amount-=parseFloat(data.Amount)
+                            newData[data.Type].Quantity-=parseFloat(data.Quantity)
+                        }else{
+                            newData[data.Type].Amount+=parseFloat(data.Amount)
+                            newData[data.Type].Quantity+=parseFloat(data.Quantity)
+                        }
+                    }else{
+                        newData[data.Type]={...data,Amount: parseFloat(data.Amount),
+                            Quantity: parseFloat(data.Quantity)};
+                        namesList.push(data.Type.toLowerCase() + "inr");
+
+                    }
+                    //console.log(newData)
+                }
+                    
+                    // return {
+                    //     ...data,
+                    //     Amount: parseFloat(data.Amount),
+                    //     Quantity: parseFloat(data.Quantity),
+                    //     id: index,
+                    //     boughtPrice:parseFloat(data.Amount)/parseFloat(data.Quantity)
+                    // }
+            })
+            setRows(Object.keys(newData).map((key,index)=>{
+                return {...newData[key], id: index, boughtPrice:parseFloat(newData[key].Amount)/parseFloat(newData[key].Quantity)};
+            }))
             setNames(namesList);
+            console.log(newData);
+            props.dataChange()
         }
-        if (rows.length === 0)
+        if (props.data.changed && props.data.data.length>0)
             getData();
-    }, [setRows, rows])
+    }, [setRows, rows,props])
 
 
     useEffect(() => {
@@ -111,11 +137,13 @@ function Table() {
             let prices = await getDataApi(url + names.map((data) => {
                 return data + ""
             }))
-            console.log(prices)
+            //console.log(prices)
+            //console.log()
             setRows(rows.map((data) => {
-                let price = prices[data.coinName.toLowerCase() + data.currency.toLowerCase()]
-                let plr = price*data.quantity - data.amount
-                let pla =plr/price*100;
+                
+                let price = prices[data.Type.toLowerCase() + 'inr']
+                let plr = price*data.Quantity - data.Amount
+                let pla =plr/data.Amount*100;
                 let status = "Profit"
                 if(plr<0){
                     status = "Loss"
@@ -128,10 +156,10 @@ function Table() {
                     status: status
                 }
             }))
-        }, 2000);
+        }, 10000);
 
         return () => clearInterval(interval);
-    }, [rows, names])
+    }, [rows, names,props])
 
 
     return ( 
