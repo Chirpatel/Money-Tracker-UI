@@ -14,18 +14,25 @@ function DataView(props) {
         else
             setColumns(event.target.value)
     }
-    const call = () =>{
+    const call = async () =>{
         
         let url =`https://moneytracker.vercel.chir.in/data/sheets?range=${range.sheetname}!${range.cell1}:${range.cell2}&columns=${columns}`
-        props.dataChange(url);
+        await props.dataChange(url);
     }
     useEffect(() => {
-        if(props.data.length===0){
-            setRange({sheetname:"Crypto",cell1:"A17",cell2:"J80"})
-            setColumns("Type,Month,Name,Amount,Quantity,Bougt/Sold")
-            call()
+        if (columns.length === 0) {
+            //console.log(props.data)
+
+            const temp = async () => {
+                await setRange({ sheetname: "Crypto", cell1: "A2", cell2: "H80" });
+                await setColumns("Coin,Date,Quantity,Amount,Currency,Tax,TaxCurrency,TransactionType"); 
+                //let url = `https://moneytracker.vercel.chir.in/data/sheets?range=${range.sheetname}!${range.cell1}:${range.cell2}&columns=${columns}`
+                let url ="https://moneytracker.vercel.chir.in/data/sheets?range=Crypto!A2:H80&columns=Coin,Date,Quantity,Amount,Currency,Tax,TaxCurrency,TransactionType"
+                await props.dataChange(url);
+            };
+            temp();
         }
-    }, [props])
+    }, [props, range, columns])
 
     const handleRefresh = () =>{
         console.log("API Called",range,columns)
@@ -41,29 +48,34 @@ function DataView(props) {
                 <input type="text" name="columns" value={columns} onChange={(e)=>{handleRangeChange(e)}}/>
                 <button onClick={()=>{handleRefresh()}}>Refresh</button>                
             </div>
-            <div className="dataView-table">
+            {columns &&
+
+                <div className="dataView-table">
                 <table>
                     <thead>
                         <tr>
-                            {columns &&
-                                columns.split(",").map((column)=>{return <th>{column.toUpperCase()}</th>})
-                            }
+                            {columns.split(",").map((column)=>{return <th>{column.toUpperCase()}</th>})}
                         </tr>
                     </thead>
-                    <tbody>
+                    
                     {props.data &&
-                        props.data.map((data,key)=>{
-                            return <tr key={key}>
-                                {
-                                    columns.split(",").map((column,key)=>{return <td key={key}>{data[column]}</td>})
-                                }
-                                </tr>
-                        })
-
+                        <tbody>
+                            {props.data.map((data,key)=>{
+                                return <tr key={key}>
+                                    {
+                                        columns.split(",").map((column,key)=>{return <td key={key}>{data[column]}</td>})
+                                    }
+                                    </tr>
+                            })}
+                        </tbody>
                     }
-                    </tbody>
+                    
                 </table>
-            </div>
+
+                </div>
+            }
+            
+            
 
         </div>
     )
