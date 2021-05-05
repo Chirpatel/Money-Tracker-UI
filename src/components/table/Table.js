@@ -148,7 +148,7 @@ function Table(props) {
                 }
                 return null;
             })
-            console.log(currency);
+            //console.log(currency);
             setRows(Object.keys(newData).map((key, index) => {
                 return {
                     ...newData[key],
