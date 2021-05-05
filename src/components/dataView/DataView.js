@@ -24,10 +24,10 @@ function DataView(props) {
             //console.log(props.data)
 
             const temp = async () => {
-                await setRange({ sheetname: "Crypto", cell1: "A2", cell2: "H80" });
-                await setColumns("Coin,Date,Quantity,Amount,Currency,Tax,TaxCurrency,TransactionType"); 
+                await setRange({ sheetname: "Crypto", cell1: "A2", cell2: "J" });
+                await setColumns("Coin,Date,Quantity,Amount,Currency,Tax,TaxCurrency,TransactionType,Remark"); 
                 //let url = `https://moneytracker.vercel.chir.in/data/sheets?range=${range.sheetname}!${range.cell1}:${range.cell2}&columns=${columns}`
-                let url ="https://moneytracker.vercel.chir.in/data/sheets?range=Crypto!A2:H80&columns=Coin,Date,Quantity,Amount,Currency,Tax,TaxCurrency,TransactionType"
+                let url ="https://moneytracker.vercel.chir.in/data/sheets?range=Crypto!A2:J&columns=Coin,Date,Quantity,Amount,Currency,Tax,TaxCurrency,TransactionType,Remark"
                 await props.dataChange(url);
             };
             temp();

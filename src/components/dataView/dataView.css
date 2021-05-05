@@ -10,14 +10,19 @@
 }
 
 .dataView-params {
-    width: 100%;
+    border: 1px solid #005498;
+    padding: 5px;
+    margin: 5px 5px 5px 10px;
     text-align: end;
     margin-top: 5px;
+    border-radius: 5px;
 }
 
 .dataView-params input {
-    padding: 5px;
+    padding: 5px 7px;
     margin: 0px 5px;
+    border: 2px solid #005498;
+    border-radius: 5px;
 }
 
 .dataView-params input[name="sheetname"] {
@@ -33,8 +38,17 @@
 }
 
 .dataView-params button {
-    padding: 5px;
+    padding: 7px 30px;
     margin: 0px 5px;
+    font-weight: bold;
+    background-color: #005498;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius:5px;
 }
 
 .dataView-table {
@@ -46,7 +60,7 @@
     margin: 10px 0px 10px 10px;
 }
 
-.dataView-table td,
+/*.dataView-table td,
 .dataView-table th {
     border: 1px solid #ddd;
     padding: 8px;
@@ -68,4 +82,40 @@
     color: white;
     position: sticky;
     top: 0;
+} */
+
+.dataView-table table{
+    border-radius:5px;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    width:100%;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.dataView-table table thead tr {
+    background-color: #005498;
+    color: #ffffff;
+    text-align: left;
+}
+.dataView-table table th{
+    background-color: #005498;
+    position: sticky;
+    top: 0;
+}
+
+.dataView-table table th,
+.dataView-table table td {
+    padding: 12px 15px;
+}
+.dataView-table table tbody tr {
+    border-bottom: thin solid #dddddd;
+}
+
+.dataView-table table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.dataView-table table tbody tr:last-of-type {
+    border-bottom: 2px solid #005498;
 }

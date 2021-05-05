@@ -2,50 +2,68 @@
     height: 400px;
     overflow: auto;
 }
-.tableView table {
-    font-family: Arial, Helvetica, sans-serif;
+.tableView table{
+    border-radius:5px;
     border-collapse: collapse;
-    width: calc(100% - 10px);
-    overflow: auto;
-    height: 100%;
-    margin: 10px 0px 10px 10px;
-    cursor: default;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    width:100%;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    table-layout: fixed;
 }
-
-.tableView table td,
-.tableView table th {
-    border: 1px solid #ddd;
-    padding: 8px;
-    overflow-x: clip;
-    cursor: default;
-}
-.tableView table tr td table tr{
-    background-color:white;
-}
-.tableView table tr td table th{
-    position: relative;
-}
-.tableView table tr:nth-child(even),.tableView table tr td table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-/* .tableView table tr:hover {
-    background-color: #ddd;
-} */
-
-.tableView table th {
-    padding-top: 12px;
-    padding-bottom: 12px;
+.tableView table thead tr {
+    background-color: #005498;
+    color: #ffffff;
     text-align: left;
-    background-color: #5b4caf;
-    color: white;
+}
+.tableView table th{
+    background-color: #005498;
     position: sticky;
     top: 0;
 }
 
+.tableView table th,
+.tableView table td {
+    padding: 12px 15px;
+}
+.tableView table tbody tr {
+    border-bottom: thin solid #dddddd;
+}
+
+.tableView table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.tableView table tbody tr:last-of-type {
+    border-bottom: 2px solid #005498;
+}
 .status-profit{
-    color:green;
+    font-weight: bold;
+    color:#00985e;
 }
 .status-loss{
-    color:red;
+    color:#980000;
 }
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #005498; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #003f72; 
+  }

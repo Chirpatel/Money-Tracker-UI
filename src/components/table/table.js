@@ -12,80 +12,80 @@ const columns = [
     {
         field: 'id',
         headerName: 'ID',
-        width: 70
+        width: 10
     },
     {
         field: 'Coin',
         headerName: 'Coin',
-        width: 100
+        width: 20
     },
     {
         field: 'Amount',
         headerName: 'Total Amount',
         type: 'number',
-        width: 120
+        width: 50
     },
     {
         field: 'Quantity',
         headerName: 'Total Quantity',
         type: 'number',
-        width: 120
+        width: 50
     },
     {
         field: 'soldAmount',
         headerName: 'Sold Amount',
         type: 'number',
-        width: 120
+        width: 50
     },
     {
         field: 'soldQuantity',
         headerName: 'Sold Quantity',
         type: 'number',
-        width: 120
+        width: 50
     },
     {
         field: 'leftQuantity',
         headerName: 'Left Quantity',
         type: 'number',
-        width: 120,
+        width: 50,
         hide: 0
     },
     {
         field: 'Currency',
         headerName: 'Currency',
-        width: 90
+        width: 20
     },
     {
         field: 'price',
         headerName: 'Current Price',
         type: 'number',
-        width: 160
+        width: 50
     },
     {
         field: 'boughtPrice',
         headerName: 'Bought Price',
         type: 'number',
-        width: 160
+        width: 50
     },
     {
         field: 'plr',
-        headerName: 'Profit/Loss',
+        headerName: 'Profit / Loss',
         type: 'number',
-        width: 160,
+        width: 50,
         
     },
     {
         field: 'pla',
-        headerName: 'Profit/Loss (%)',
+        headerName: 'Profit / Loss (%)',
         type: 'number',
-        width: 160,
+        width: 50,
         sorting:"desc"
     },
     {
         field: 'status',
         headerName: 'Status',
         type: 'String',
-        width: 160,
+        width: 50,
         customCss: true,
         customStyle:{Profit:"status-profit",Loss:"status-loss"}
     },
@@ -181,9 +181,12 @@ function Table(props) {
                     let plr = data.soldAmount-data.Amount
                     let pla = plr / data.Amount * 100;
                     if(data.leftQuantity!==0)
-                    {
-                        plr = (price * (data.Quantity-data.soldQuantity)) - (data.Amount - data.soldAmount)
-                        pla = plr / (data.Amount-data.soldAmount) * 100;
+                    {   plr = (price * (data.Quantity-data.soldQuantity)) - (data.Amount - data.soldAmount);
+                        if(data.Amount>data.soldAmount){
+                            pla = plr / (data.Amount-data.soldAmount) * 100;
+                        }else{
+                            pla = 0.0000001;
+                        }
                     }
                     const dataMap = (data,price) => {
                         //console.log(price)
