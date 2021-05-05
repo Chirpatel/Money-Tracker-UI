@@ -54,7 +54,7 @@ function DataView(props) {
                 <table>
                     <thead>
                         <tr>
-                            {columns.split(",").map((column)=>{return <th>{column.toUpperCase()}</th>})}
+                            {columns.split(",").map((column,key)=>{return <th key={key}>{column.toUpperCase()}</th>})}
                         </tr>
                     </thead>
                     

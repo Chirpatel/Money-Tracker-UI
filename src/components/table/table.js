@@ -3,10 +3,11 @@ import {
     useState,
     useEffect
 } from 'react';
-import {
-    DataGrid
-} from '@material-ui/data-grid';
+// import {
+//     DataGrid
+// } from '@material-ui/data-grid';
 import getDataApi from '../api/data';
+import TableView from './TableView/TableView';
 const columns = [
     {
         field: 'id',
@@ -46,7 +47,8 @@ const columns = [
         field: 'leftQuantity',
         headerName: 'Left Quantity',
         type: 'number',
-        width: 120
+        width: 120,
+        hide: 0
     },
     {
         field: 'Currency',
@@ -69,19 +71,23 @@ const columns = [
         field: 'plr',
         headerName: 'Profit/Loss',
         type: 'number',
-        width: 160
+        width: 160,
+        
     },
     {
         field: 'pla',
         headerName: 'Profit/Loss (%)',
         type: 'number',
-        width: 160
+        width: 160,
+        sorting:"desc"
     },
     {
         field: 'status',
         headerName: 'Status',
         type: 'String',
-        width: 160
+        width: 160,
+        customCss: true,
+        customStyle:{Profit:"status-profit",Loss:"status-loss"}
     },
 ];
 
@@ -105,9 +111,11 @@ function Table(props) {
                         if (data["TransactionType"] === "Sold") {
                             newData[name].soldAmount += parseFloat(data.Amount)
                             newData[name].soldQuantity += parseFloat(data.Quantity)
+                            newData[name].data.push(data);
                         } else {
                             newData[name].Amount += parseFloat(data.Amount)
                             newData[name].Quantity += parseFloat(data.Quantity)
+                            newData[name].data.push(data);
                         }
                     } else {
                         if(data["TransactionType"] === "Sold"){
@@ -116,7 +124,8 @@ function Table(props) {
                                 Amount: 0,
                                 Quantity: 0,
                                 soldAmount:parseFloat(data.Amount),
-                                soldQuantity:parseFloat(data.Quantity)
+                                soldQuantity:parseFloat(data.Quantity),
+                                data:[data]
                             };
                         }else{
                             newData[name] = {
@@ -124,7 +133,8 @@ function Table(props) {
                                 Amount: parseFloat(data.Amount),
                                 Quantity: parseFloat(data.Quantity),
                                 soldAmount:0,
-                                soldQuantity:0
+                                soldQuantity:0,
+                                data:[data]
                             };
                         }
                         namesList.push(name.toLowerCase());
@@ -175,39 +185,38 @@ function Table(props) {
                         plr = (price * (data.Quantity-data.soldQuantity)) - (data.Amount - data.soldAmount)
                         pla = plr / (data.Amount-data.soldAmount) * 100;
                     }
-                    let status = "Profit"
-                    if (plr < 0) {
-                        status = "Loss"
+                    const dataMap = (data,price) => {
+                        //console.log(price)
+                        return data.map((data) => {
+                            //console.log(price)
+                            let SellingPrice = price*data.Quantity
+                            let ProfitOrLoss = SellingPrice-data.Amount;
+                            return {
+                                ...data,
+                                SellingPrice: SellingPrice.toFixed(4),
+                                ProfitOrLoss: ProfitOrLoss.toFixed(4),
+                                status:(ProfitOrLoss>0?"Profit":"Loss")
+                            }
+                        })
                     }
                     return {
                         ...data,
                         price: price,
                         plr: plr,
                         pla: pla,
-                        status: status
+                        status: (plr>0?"Profit":"Loss"),
+                        data: dataMap(data.data,price)
                     }
                 }))
             }
-        }, 10000);
+        }, 1000);
 
         return () => clearInterval(interval);
     }, [rows, names, props])
 
 
     return ( 
-        <div style = {{height: 400,width: '100%'}} >
-            <DataGrid sortModel={[
-                {
-                    field: 'leftQuantity',
-                    sort: 'desc',
-                },
-                    {
-                        field: 'plr',
-                        sort: 'desc',
-                    },
-                    
-                ]} rows = {rows}columns = {columns} pageSize = {50} checkboxSelection />
-        </div>
+            <TableView rows = {rows} columns = {columns}/>
     )
 }
 
