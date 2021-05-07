@@ -16,7 +16,7 @@ function DataView(props) {
     }
     const call = async () =>{
         
-        let url =`https://moneytracker.vercel.chir.in/data/sheets?range=${range.sheetname}!${range.cell1}:${range.cell2}&columns=${columns}`
+        let url =`https://moneytracker.vercel.chir.in/data/sheets?range=${range.sheetname}!${range.cell1}:${range.cell2}&columns=${columns}&sheetId=cryptoTable1_cryptoTable1`
         await props.dataChange(url);
     }
     useEffect(() => {
@@ -27,7 +27,7 @@ function DataView(props) {
                 await setRange({ sheetname: "Crypto", cell1: "A2", cell2: "J" });
                 await setColumns("Coin,Date,Quantity,Amount,Currency,Tax,TaxCurrency,TransactionType,Remark"); 
                 //let url = `https://moneytracker.vercel.chir.in/data/sheets?range=${range.sheetname}!${range.cell1}:${range.cell2}&columns=${columns}`
-                let url ="https://moneytracker.vercel.chir.in/data/sheets?range=Crypto!A2:J&columns=Coin,Date,Quantity,Amount,Currency,Tax,TaxCurrency,TransactionType,Remark"
+                let url ="https://moneytracker.vercel.chir.in/data/sheets?range=Crypto!A2:J&columns=Type,Month,Name,Amount,Quantity,Bougt/Sold&sheetId=cryptoTable1_cryptoTable1"
                 await props.dataChange(url);
             };
             temp();
