@@ -1,8 +1,10 @@
 import {React,useState, useEffect} from 'react'
 import './dataView.css'
+import Loader from '../Loader/Loader'
 function DataView(props) {
     const [columns, setColumns] = useState("");
     const [range, setRange] = useState({sheetname:"",cell1:"",cell2:""});
+    const [loading, setLoading] = useState(true)
     const handleRangeChange= (event) => {
         //console.log(event.target.name,event.target.value)
         if(event.target.name==="sheetname")
@@ -15,32 +17,38 @@ function DataView(props) {
             setColumns(event.target.value)
     }
     const call = async () =>{
-        
-        let url =`https://moneytracker.vercel.chir.in/data/sheets?range=${range.sheetname}!${range.cell1}:${range.cell2}&columns=${columns}&sheetId=cryptoTable1_cryptoTable1`
+        let url =`https://moneytracker.vercel.chir.in/data/sheets?range=${range.sheetname}!${range.cell1}:${range.cell2}&columns=${columns}&sheetId=${props.table.sheetId}`
         await props.dataChange(url);
+        setLoading(false);
     }
     useEffect(() => {
+        //console.log(props,columns)
         if (columns.length === 0) {
             //console.log(props.data)
 
             const temp = async () => {
-                await setRange({ sheetname: "Crypto", cell1: "A2", cell2: "J" });
-                await setColumns("Coin,Date,Quantity,Amount,Currency,Tax,TaxCurrency,TransactionType,Remark"); 
+                await setRange({ sheetname: props.table.range.sheet, cell1:props.table.range.col1, cell2: props.table.range.col2 });
+                await setColumns(props.table.columns); 
                 //let url = `https://moneytracker.vercel.chir.in/data/sheets?range=${range.sheetname}!${range.cell1}:${range.cell2}&columns=${columns}`
-                let url ="https://moneytracker.vercel.chir.in/data/sheets?range=Crypto!A2:J&columns=Coin,Date,Quantity,Amount,Currency,Tax,TaxCurrency,TransactionType,Remark&sheetId=cryptoTable1_cryptoTable1"
+                let url =`https://moneytracker.vercel.chir.in/data/sheets?range=${props.table.range.sheet}!${props.table.range.col1}:${props.table.range.col2}&columns=${props.table.columns}&sheetId=${props.table.sheetId}`
                 await props.dataChange(url);
+                setLoading(false);
             };
             temp();
         }
     }, [props, range, columns])
 
     const handleRefresh = () =>{
+        setLoading(true);
         console.log("API Called",range,columns)
         call();
     }
     return (
+        <>
+        
         <div className="dataView">
             <div className="dataView-params">
+                <div className="tableName">{props.table.tableName}</div>
                 <span>Range: {range.sheetname}!{range.cell1}:{range.cell2}</span>
                 <input type="text" name="sheetname" value={range.sheetname} onChange={(e)=>{handleRangeChange(e)}}/>
                 <input type="text" name="cell1" value={range.cell1} onChange={(e)=>{handleRangeChange(e)}}/>
@@ -48,7 +56,10 @@ function DataView(props) {
                 <input type="text" name="columns" value={columns} onChange={(e)=>{handleRangeChange(e)}}/>
                 <button onClick={()=>{handleRefresh()}}>Refresh</button>                
             </div>
-            {columns &&
+            {loading &&
+                <Loader height={55} width={0}/>
+            }
+            {!loading && columns &&
 
                 <div className="dataView-table">
                 <table>
@@ -78,6 +89,7 @@ function DataView(props) {
             
 
         </div>
+        </>
     )
 }
 

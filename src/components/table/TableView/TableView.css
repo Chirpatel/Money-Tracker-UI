@@ -1,5 +1,5 @@
 .tableView{
-    height: 330px;
+    height: 100%;
     overflow: auto;
 }
 .tableView table{

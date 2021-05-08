@@ -3,17 +3,11 @@ import {
     useState,
     useEffect
 } from 'react';
-// import {
-//     DataGrid
-// } from '@material-ui/data-grid';
-import getDataApi from '../api/data';
+import getApi from '../api/data';
 import TableView from './TableView/TableView';
+import Loader from '../Loader/Loader'
+import Header from '../constants/Header/Header'
 const columns = [
-    {
-        field: 'id',
-        headerName: 'ID',
-        width: 10
-    },
     {
         field: 'Coin',
         headerName: 'Coin',
@@ -95,6 +89,7 @@ const columns = [
 function Table(props) {
     const [rows, setRows] = useState([]);
     const [names, setNames] = useState([]);
+    const [loading,setLoading] = useState(true);
     useEffect(() => {
         //console.log(props.data)
         const getData = async () => {
@@ -152,17 +147,20 @@ function Table(props) {
             setRows(Object.keys(newData).map((key, index) => {
                 return {
                     ...newData[key],
-                    id: index,
                     boughtPrice: parseFloat(newData[key].Amount) / parseFloat(newData[key].Quantity),
                     leftQuantity: newData[key].Quantity-newData[key].soldQuantity
                 };
             }))
             setNames(namesList.filter(function () { return true }));
             //console.log(newData);
+            setLoading(false);
             
         }
-        if (props.data.changed && props.data.data.length > 0)
+        if (props.data.changed && props.data.data.length > 0){
+            setLoading(true);
             getData();
+        }
+            
     }, [setRows, rows, props])
 
 
@@ -170,7 +168,7 @@ function Table(props) {
         const interval = setInterval(async () => {
             if(names.length>0){
                 let url = 'https://moneytracker.vercel.chir.in/api/crypto/price?list='
-                let prices = await getDataApi(url + names.map((data) => {
+                let prices = await getApi(url + names.map((data) => {
                     return data + ""
                 }))
                 //console.log(prices)
@@ -198,7 +196,7 @@ function Table(props) {
                                 ...data,
                                 SellingPrice: SellingPrice.toFixed(4),
                                 ProfitOrLoss: ProfitOrLoss.toFixed(4),
-                                status:(ProfitOrLoss>0?"Profit":"Loss")
+                                status:(ProfitOrLoss>0?(data.TransactionType==="Bought"?"Profit":"Loss"):(data.TransactionType==="Sold"?"Loss":"Profit"))
                             }
                         })
                     }
@@ -219,7 +217,17 @@ function Table(props) {
 
 
     return ( 
-            <TableView rows = {rows} columns = {columns}/>
+        <>
+            <Header text={props.heading} fontSize={25} />
+            <div style={{height:"330px"}}>
+                {loading &&
+                    <Loader/>
+                }
+                {!loading &&
+                    <TableView rows = {rows} columns = {columns}/>
+                }
+            </div>
+        </>
     )
 }
 

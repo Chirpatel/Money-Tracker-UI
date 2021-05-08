@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const getDataApi = async (url) =>{
+const getApi = async (url) =>{
     var config = {
         method: 'get',
         url: url,
       };
       return ( await axios(config)).data;
 }
-export default getDataApi;
+export default getApi;

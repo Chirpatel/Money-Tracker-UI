@@ -17,7 +17,12 @@
     margin-top: 5px;
     border-radius: 5px;
 }
-
+.dataView-params .tableName{
+    position: absolute;
+    padding: 5px 7px;
+    margin: 2px 5px;
+    border-radius: 5px;
+}
 .dataView-params input {
     padding: 5px 7px;
     margin: 0px 5px;
