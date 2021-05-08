@@ -6,84 +6,7 @@ import {
 import getApi from '../api/data';
 import TableView from './TableView/TableView';
 import Loader from '../Loader/Loader'
-import Header from '../constants/Header/Header'
-const columns = [
-    {
-        field: 'Coin',
-        headerName: 'Coin',
-        width: 20
-    },
-    {
-        field: 'Amount',
-        headerName: 'Total Amount',
-        type: 'number',
-        width: 50
-    },
-    {
-        field: 'Quantity',
-        headerName: 'Total Quantity',
-        type: 'number',
-        width: 50
-    },
-    {
-        field: 'soldAmount',
-        headerName: 'Sold Amount',
-        type: 'number',
-        width: 50
-    },
-    {
-        field: 'soldQuantity',
-        headerName: 'Sold Quantity',
-        type: 'number',
-        width: 50
-    },
-    {
-        field: 'leftQuantity',
-        headerName: 'Left Quantity',
-        type: 'number',
-        width: 50,
-        hide: 0
-    },
-    {
-        field: 'Currency',
-        headerName: 'Currency',
-        width: 20
-    },
-    {
-        field: 'price',
-        headerName: 'Current Price',
-        type: 'number',
-        width: 50
-    },
-    {
-        field: 'boughtPrice',
-        headerName: 'Bought Price',
-        type: 'number',
-        width: 50
-    },
-    {
-        field: 'plr',
-        headerName: 'Profit / Loss',
-        type: 'number',
-        width: 50,
-        
-    },
-    {
-        field: 'pla',
-        headerName: 'Profit / Loss (%)',
-        type: 'number',
-        width: 50,
-        sorting:"desc"
-    },
-    {
-        field: 'status',
-        headerName: 'Status',
-        type: 'String',
-        width: 50,
-        customCss: true,
-        customStyle:{Profit:"status-profit",Loss:"status-loss"}
-    },
-];
+
 
 
 function Table(props) {
@@ -218,13 +141,13 @@ function Table(props) {
 
     return ( 
         <>
-            <Header text={props.heading} fontSize={25} />
+            
             <div style={{height:"330px"}}>
                 {loading &&
                     <Loader/>
                 }
                 {!loading &&
-                    <TableView rows = {rows} columns = {columns}/>
+                    <TableView rows = {rows} columns = {props.columns}/>
                 }
             </div>
         </>
