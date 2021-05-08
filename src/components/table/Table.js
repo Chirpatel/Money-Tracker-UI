@@ -119,7 +119,7 @@ function Table(props) {
                                 ...data,
                                 SellingPrice: SellingPrice.toFixed(4),
                                 ProfitOrLoss: ProfitOrLoss.toFixed(4),
-                                status:(ProfitOrLoss>0?(data.TransactionType==="Bought"?"Profit":"Loss"):(data.TransactionType==="Sold"?"Loss":"Profit"))
+                                status:(ProfitOrLoss>0?(data.TransactionType==="Bought"?"Profit":"Loss"):(data.TransactionType==="Bought"?"Loss":"Profit"))
                             }
                         })
                     }
