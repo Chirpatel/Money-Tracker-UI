@@ -9,7 +9,7 @@ function Notifier(props) {
     const [addNotification, setAddNotification] = useState(false);
     const [data,setData]= useState({coin:"",value:0,condition:"=="})
     useEffect(() => {
-        console.log("Price Changed")
+        //console.log("Price Changed")
         const switchCase = (var1,var2,cond)=>{
             switch (cond) {
                 case "==":
@@ -35,24 +35,27 @@ function Notifier(props) {
                     setNotification((n) => {
                         //console.log(n)
                         let data = n.filter(data=>data.id===key)
-                        console.log(data)
+                        //console.log(data)
                         if(data.length>0){
-                            if(new Date() - data.time > 1000*60*2){
-                                console.log(`The Coin ${notify.coin} Condtion ${notify.condition} ${notify.value} is valid`)
-                                return [...n.filter(data=>data.id!==key), { id: `${key}`, body: `The Coin ${notify.coin} Condtion ${notify.condition} ${notify.value} is valid`, coin: notify.coin,time:new Date() ,status: true}]
+                            //console.log(data[0].id,new Date() - new Date(data[0].time))
+                            if(new Date() - data[0].time > 1000*60*2){
+                                
+                                //console.log(`The ${notify.coin} ${notify.condition} ${notify.value}|| Current Value: ${props.price[notify.coin]}`)
+                                return [...n.filter(data=>data.id!==key), { id: `${key}`, body: `The ${notify.coin} ${notify.condition} ${notify.value} || Current Value: ${props.price[notify.coin]}`, coin: notify.coin,time:new Date()}]
                             }
                             else{
                                 return n
                             }
                         }else{
-                            console.log(`The Coin ${notify.coin} Condtion ${notify.condition} ${notify.value} is valid`)
-                            return [...n, { id: `${key}`, body: `The Coin ${notify.coin} Condtion ${notify.condition} ${notify.value} is valid`, coin: notify.coin,time:new Date() ,status: true}]
+                            //console.log(`The ${notify.coin} ${notify.condition} ${notify.value}|| Current Value: ${props.price[notify.coin]}`)
+                            return [...n, { id: `${key}`, body: `The ${notify.coin} ${notify.condition} ${notify.value} || Current Value: ${props.price[notify.coin]}`, coin: notify.coin,time:new Date()}]
                         }
                         
                     })
                 }
+                return null;
             })
-            console.log(notifier);
+            //console.log(notifier);
             //console.log(notification)
         }
         if(Object.keys(props.price).length>0 && Object.keys(notifier).length>0)
@@ -71,7 +74,7 @@ function Notifier(props) {
         temp[Object.keys(notifier).length+1]=data;
         setAddNotification(false);
         setNotifier({...notifier,...temp})
-        console.log(data);
+        //console.log(data);
         setData({coin:"",value:0,condition:"=="});
         
     }
@@ -82,10 +85,11 @@ function Notifier(props) {
         <>
             {notification.length>0 &&
                 notification.map((notification,key)=>{
-                    console.log(notficationDisplayed)
+                    //console.log(notficationDisplayed)
                     if(!notficationDisplayed.includes(notification.id+notification.time)){
-                        return <Notification key={key} notification ={notification.status} body={notification.body} coin={notification.coin} id={notification.id+notification.time} handleShow={addNotficationDisplayed} />
+                        return <Notification key={key} notification ={true} body={notification.body} coin={notification.coin} id={notification.id+notification.time} handleShow={addNotficationDisplayed} />
                     }
+                    return <Notification key={key} notification ={false} body={notification.body} coin={notification.coin} id={notification.id+notification.time} handleShow={addNotficationDisplayed} />
                 })
             }
             <div className="notifier">

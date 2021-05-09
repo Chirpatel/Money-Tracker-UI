@@ -95,7 +95,7 @@ function Table(props) {
                     return data + ""
                 }))
                 props.setPrice(prices);
-                console.log(prices)
+                //console.log(prices)
                 //console.log()
                 setRows(rows.map((data) => {
 
