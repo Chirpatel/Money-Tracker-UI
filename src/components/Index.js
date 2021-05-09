@@ -20,13 +20,13 @@ function Index() {
     const page= "Crypto";
     useEffect(() => {
         const getPage = async () => {
-            console.log("Called")
+            //console.log("Called")
             let url = `https://moneytracker.vercel.chir.in/data/page/get?page=${page}`
             let data = await getApi(url);
             setTable(data.data.table)
             setColumns(data.data.columns)
             setLoading(false);
-            console.log(data.data.columns)
+            //console.log(data.data.columns)
         }
         getPage()
     }, [page])
