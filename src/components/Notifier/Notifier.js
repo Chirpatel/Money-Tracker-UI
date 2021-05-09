@@ -6,8 +6,9 @@ function Notifier(props) {
     const [notification,setNotification] = useState([]);
     const [notficationDisplayed, setNotificationDispalyed] = useState([]);
     const [notifier, setNotifier] = useState({})
+    const [viewNotifier, setViewNotifier] = useState(false);
     const [addNotification, setAddNotification] = useState(false);
-    const [data,setData]= useState({coin:"",value:0,condition:"=="})
+    const [data,setData]= useState({coin:"",condition:"==",value:0})
     useEffect(() => {
         //console.log("Price Changed")
         const switchCase = (var1,var2,cond)=>{
@@ -75,11 +76,25 @@ function Notifier(props) {
         setAddNotification(false);
         setNotifier({...notifier,...temp})
         //console.log(data);
-        setData({coin:"",value:0,condition:"=="});
+        setData({coin:"",condition:"==",value:0});
         
     }
     const addNotficationDisplayed = (id) =>{
         setNotificationDispalyed([...notficationDisplayed,id])
+    }
+    const setViewNotify = () => {
+        setViewNotifier(true);
+    }
+    const closeViewNotifier = () => {
+        setViewNotifier(false);
+    }
+    const removeNotifier = (id) => {
+        setNotifier(Object.keys(notifier).reduce((notify, key) => {
+            if (key !== id) {
+                notify[key] = notifier[key]
+            }
+            return notify
+        }, {}))
     }
     return (
         <>
@@ -93,7 +108,11 @@ function Notifier(props) {
                 })
             }
             <div className="notifier">
-                <button onClick={addNotifier}>Add Notifier</button>
+                <div className="notifier-add">
+                    <button onClick={setViewNotify}>View Notifier</button>
+                    <button onClick={addNotifier}>Add Notifier</button>
+                </div>
+                
                 {props.price && addNotification && 
                     <div className="modal">
                         <div className="modal_content">
@@ -131,7 +150,44 @@ function Notifier(props) {
                             </div>
                         </div>
                     </div>
+                }
+                {viewNotifier && 
+                    <div className="modal">
+                        <div className="modal_content">
+                            <span className="close" onClick={closeViewNotifier}>
+                                &times;
+                            </span>
+                            <Header text={"View Notifier"} fontSize={25} />
+                            {notifier &&
+                            <table className={"viewNotifier-table"}>
+                                <thead>
+                                    {Object.keys(notifier).length > 0 &&
+                                        <tr>
+                                            {Object.keys(notifier[Object.keys(notifier)[0]]).map((col,key)=>{
+                                                return <th key={key}>{col}</th>
+                                            })}
+                                            <th>Remove</th>
+                                        </tr>
+                                    }
+                                </thead>
+                            {Object.keys(notifier).length > 0 &&
+                                <tbody>
+                                    {Object.keys(notifier).map((key) => {
+                                        return(
+                                            <tr key={key}> 
+                                                {Object.keys(notifier[key]).map((col,k) => {
+                                                    return <td key={k}> {notifier[key][col]}</td>
+                                                })}
+                                                <td><button onClick={() => {removeNotifier(key)}}>&times;</button></td>
+                                            </tr>
+                                        )})}
+                                </tbody>
+                            }
+                            </table>
 
+                            }
+                        </div>
+                    </div>
                 }
             </div>
         </>

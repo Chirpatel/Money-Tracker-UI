@@ -1,23 +1,26 @@
-.tableView{
+.tableView {
     height: 100%;
     overflow: auto;
 }
-.tableView table{
-    border-radius:5px;
+
+.tableView table {
+    border-radius: 5px;
     border-collapse: collapse;
     font-size: 0.9em;
     font-family: sans-serif;
-    width:100%;
+    width: 100%;
     min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     table-layout: fixed;
 }
+
 .tableView table thead tr {
     background-color: #005498;
     color: #ffffff;
     text-align: left;
 }
-.tableView table th{
+
+.tableView table th {
     background-color: #005498;
     position: sticky;
     top: 0;
@@ -27,6 +30,7 @@
 .tableView table td {
     padding: 12px 15px;
 }
+
 .tableView table tbody tr {
     border-bottom: thin solid #dddddd;
 }
@@ -38,32 +42,34 @@
 .tableView table tbody tr:last-of-type {
     border-bottom: 2px solid #005498;
 }
-.status-profit{
+
+.status-profit {
     font-weight: bold;
-    color:#00985e;
+    color: #00985e;
 }
-.status-loss{
-    color:#980000;
+
+.status-loss {
+    color: #980000;
 }
 
 ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey; 
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
     border-radius: 10px;
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #005498; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #005498;
     border-radius: 10px;
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #003f72; 
-  }
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #003f72;
+}

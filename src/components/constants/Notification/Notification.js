@@ -25,8 +25,8 @@ function Notification(props) {
                 title={props.coin} // Required
                 body={props.body}
                 icon="icon.png"
-                tag="abcdef"
-                timeout="5000"
+                tag={props.coin}
+                timeout="10000"
                 onClick={event => handleClick(event)}
             />
         </div>
