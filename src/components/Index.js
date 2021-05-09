@@ -4,11 +4,13 @@ import DataView from './dataView/DataView'
 import getApi from './api/data'
 import Loader from './Loader/Loader'
 import Header from './constants/Header/Header'
+import Notifier from './Notifier/Notifier'
 function Index() {
     const [data, setData] = useState({data:[],changed:false});
     const [loading, setLoading] = useState(true);
     const [table, setTable] = useState([]);
     const [columns, setColumns] = useState([]);
+    const [price,setPrices] = useState({});
     const handleDataChange = async (url)=>{  
         setData({data:await getApi(url),changed:true});
     }
@@ -38,7 +40,10 @@ function Index() {
             {!loading && table&&
                 <>
                     <Header text={page} fontSize={25} />
-                    <Table data={data} columns={columns[0]} dataChange={handleChanged}/>
+                    {price &&
+                        <Notifier price={price}/>
+                    }
+                    <Table data={data} columns={columns[0]} setPrice={setPrices} dataChange={handleChanged}/>
                     <DataView data={data.data} table={table[0]} dataChange={handleDataChange}/> 
                 </>
             }

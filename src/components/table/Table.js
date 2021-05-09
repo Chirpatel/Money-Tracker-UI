@@ -94,7 +94,8 @@ function Table(props) {
                 let prices = await getApi(url + names.map((data) => {
                     return data + ""
                 }))
-                //console.log(prices)
+                props.setPrice(prices);
+                console.log(prices)
                 //console.log()
                 setRows(rows.map((data) => {
 
@@ -133,7 +134,7 @@ function Table(props) {
                     }
                 }))
             }
-        }, 1000);
+        }, 10000);
 
         return () => clearInterval(interval);
     }, [rows, names, props])
@@ -147,7 +148,10 @@ function Table(props) {
                     <Loader/>
                 }
                 {!loading &&
+                    <>
+                    
                     <TableView rows = {rows} columns = {props.columns}/>
+                    </>
                 }
             </div>
         </>
