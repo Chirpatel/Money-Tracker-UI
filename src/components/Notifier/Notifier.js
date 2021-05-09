@@ -42,14 +42,14 @@ function Notifier(props) {
                             if(new Date() - data[0].time > 1000*60*2){
                                 
                                 //console.log(`The ${notify.coin} ${notify.condition} ${notify.value}|| Current Value: ${props.price[notify.coin]}`)
-                                return [...n.filter(data=>data.id!==key), { id: `${key}`, body: `The ${notify.coin} ${notify.condition} ${notify.value} || Current Value: ${props.price[notify.coin]}`, coin: notify.coin,time:new Date()}]
+                                return [...n.filter(data=>data.id!==key), { id: `${key}`, body: `${notify.coin.toUpperCase()} ${notify.condition} ${notify.value} || Current Value: ${props.price[notify.coin]}`, coin: notify.coin.toUpperCase(),time:new Date()}]
                             }
                             else{
                                 return n
                             }
                         }else{
                             //console.log(`The ${notify.coin} ${notify.condition} ${notify.value}|| Current Value: ${props.price[notify.coin]}`)
-                            return [...n, { id: `${key}`, body: `The ${notify.coin} ${notify.condition} ${notify.value} || Current Value: ${props.price[notify.coin]}`, coin: notify.coin,time:new Date()}]
+                            return [...n, { id: `${key}`, body: `${notify.coin.toUpperCase()} ${notify.condition} ${notify.value} || Current Value: ${props.price[notify.coin]}`, coin: notify.coin.toUpperCase(),time:new Date()}]
                         }
                         
                     })
